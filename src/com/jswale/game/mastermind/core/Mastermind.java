@@ -7,6 +7,7 @@ import com.jswale.game.mastermind.exception.GuessWrongSizeException;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 public class Mastermind {
 
@@ -40,12 +41,20 @@ public class Mastermind {
 
     public void newGame() {
         this.guesses.clear();
-        this.state=State.PLAYING;
-        this.solution = null; //TODO generate solution
+        this.state = State.PLAYING;
+        this.solution = generate();
+    }
+
+    public LinkedList<PlayerGuess> getGuesses() {
+        return guesses;
+    }
+
+    public Character[] generate() {
+        return new Random().ints(0, this.rules.getColors().length).mapToObj((i) -> (char) this.rules.getColors()[i]).limit(this.rules.getNoPins()).toArray(Character[]::new);
     }
 
     public void guess(String guess) throws GuessWrongColorException, GuessWrongSizeException, GuessGameIsOverException {
-        if(!this.state.equals(State.PLAYING)) {
+        if (!this.state.equals(State.PLAYING)) {
             throw new GuessGameIsOverException();
         }
         checkInput(guess);
@@ -59,9 +68,9 @@ public class Mastermind {
         List<Character> solutionAsList = Arrays.asList(this.solution);
 
         // Welled placed elements
-        for(int i = 0; i < noPins; i++) {
+        for (int i = 0; i < noPins; i++) {
             Character pin = guess.charAt(i);
-            if(solutionAsList.get(i).equals(pin)) {
+            if (solutionAsList.get(i).equals(pin)) {
                 noWelledPlaced++;
                 matrice[i] = true;
             } else {
@@ -70,16 +79,16 @@ public class Mastermind {
         }
 
         // Good color but wrong place
-        for(int i = 0; i < noPins; i++) {
+        for (int i = 0; i < noPins; i++) {
             Character pin = guess.charAt(i);
             // Only look at not welled place elements
-            if(!solutionAsList.get(i).equals(pin)) {
+            if (!solutionAsList.get(i).equals(pin)) {
                 // Search for other position
-                for(int j = 0; j < noPins; j++) {
+                for (int j = 0; j < noPins; j++) {
                     // Good color but not already tagged
-                    if(!matrice[j] && solutionAsList.get(j).equals(pin)) {
+                    if (!matrice[j] && solutionAsList.get(j).equals(pin)) {
                         noGoodColor++;
-                        matrice[j]=true;
+                        matrice[j] = true;
                         break; // Stop looking further
                     }
                 }
@@ -91,10 +100,10 @@ public class Mastermind {
         guesses.add(playerGuess);
 
         // Look at the game
-        if(noWelledPlaced == noPins) {
+        if (noWelledPlaced == noPins) {
             this.state = State.VICTORY;
         }
-        if(this.guesses.size() == this.rules.getMaxTries()) {
+        if (this.guesses.size() == this.rules.getMaxTries()) {
             this.state = State.GAME_OVER;
         }
     }
@@ -107,13 +116,13 @@ public class Mastermind {
      * @throws GuessWrongColorException
      */
     private void checkInput(String guess) throws GuessWrongSizeException, GuessWrongColorException {
-        if(guess.length() != this.rules.getNoPins()) {
-            throw new GuessWrongSizeException(this.rules.getNoPins());
+        if (guess.length() != this.rules.getNoPins()) {
+            throw new GuessWrongSizeException();
         }
 
         List<Character> colorsAsList = Arrays.asList(this.rules.getColors());
-        if(guess.chars().mapToObj(i->(char)i).anyMatch(c->!colorsAsList.contains(c))) {
-            throw new GuessWrongColorException(this.rules.getColors());
+        if (guess.chars().mapToObj(i -> (char) i).anyMatch(c -> !colorsAsList.contains(c))) {
+            throw new GuessWrongColorException();
         }
     }
 
