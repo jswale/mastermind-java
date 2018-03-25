@@ -5,30 +5,17 @@ import com.jswale.game.mastermind.exception.GuessGameIsOverException;
 import com.jswale.game.mastermind.exception.GuessWrongColorException;
 import com.jswale.game.mastermind.exception.GuessWrongSizeException;
 
-public class Example {
-
-    private final Mastermind mastermind;
-
-    private Example() {
-        this.mastermind = new Mastermind();
-    }
+public class Example extends AbstractConsolePlayer {
 
     private void play() {
         this.mastermind.newGame();
         this.mastermind.setSolution(new Character[]{'R', 'O', 'O', 'J'});
 
-        try {
-            this.mastermind.guess("NBJV");
-            this.mastermind.guess("JJOR");
-            this.mastermind.guess("RJRO");
-            this.mastermind.guess("ORJO");
-            this.mastermind.guess("ROOJ");
-
-        } catch (GuessWrongColorException | GuessGameIsOverException | GuessWrongSizeException guessWrongColorException) {
-            guessWrongColorException.printStackTrace();
-        }
-
-        System.out.println(this.mastermind.getState());
+        this.guess("NBJV");
+        this.guess("JJOR");
+        this.guess("RJRO");
+        this.guess("ORJO");
+        this.guess("ROOJ");
 
     }
 
