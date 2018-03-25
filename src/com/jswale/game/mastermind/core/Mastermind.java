@@ -32,6 +32,15 @@ public class Mastermind {
         return state;
     }
 
+    public void newGame() {
+        this.guesses.clear();
+        this.state=State.PLAYING;
+        this.solution = null; //TODO generate solution
+    }
+
+    public void guess(String guess) {
+    }
+
     public enum State {
         PLAYING,
         GAME_OVER,
