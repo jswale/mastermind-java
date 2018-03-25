@@ -1,8 +1,9 @@
 package com.jswale.game.mastermind.player;
 
 import com.jswale.game.mastermind.core.Mastermind;
-import com.jswale.game.mastermind.exception.GuessWrongColor;
-import com.jswale.game.mastermind.exception.GuessWrongSize;
+import com.jswale.game.mastermind.exception.GuessGameIsOverException;
+import com.jswale.game.mastermind.exception.GuessWrongColorException;
+import com.jswale.game.mastermind.exception.GuessWrongSizeException;
 
 public class Example {
 
@@ -22,11 +23,16 @@ public class Example {
             this.mastermind.guess("RJRO");
             this.mastermind.guess("ORJO");
             this.mastermind.guess("ROOJ");
-        } catch (GuessWrongColor guessWrongColor) {
-            guessWrongColor.printStackTrace();
-        } catch (GuessWrongSize guessWrongSize) {
-            guessWrongSize.printStackTrace();
+
+        } catch (GuessWrongColorException guessWrongColorException) {
+            guessWrongColorException.printStackTrace();
+        } catch (GuessWrongSizeException guessWrongSizeException) {
+            guessWrongSizeException.printStackTrace();
+        } catch (GuessGameIsOverException gameIsOverException) {
+            gameIsOverException.printStackTrace();
         }
+
+        System.out.println(this.mastermind.getState());
 
     }
 

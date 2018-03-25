@@ -1,8 +1,8 @@
 package com.jswale.game.mastermind.exception;
 
-public class GuessWrongSize extends Exception {
+public class GuessWrongSizeException extends Exception {
 
-    public GuessWrongSize(int allowedSize) {
+    public GuessWrongSizeException(int allowedSize) {
         super("Only " + allowedSize + " colors allowed");
     }
 }
