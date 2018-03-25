@@ -87,6 +87,7 @@ public abstract class AbstractConsolePlayer {
                 break;
             case PLAYING:
             default:
+                System.out.println("Legend: # for welled placed, O for good color but wrong place");
         }
     }
 
