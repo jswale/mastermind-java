@@ -10,7 +10,7 @@ public class Rules {
         this(new Character[]{'R', 'J', 'B', 'O', 'V', 'N'}, 10, 4);
     }
 
-    public Rules(Character[] colors, int maxTries, int noPins) {
+    private Rules(Character[] colors, int maxTries, int noPins) {
         this.colors = colors;
         this.maxTries = maxTries;
         this.noPins = noPins;

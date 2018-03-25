@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class ConsolePlayer extends AbstractConsolePlayer {
 
 
-    private Scanner sc = new Scanner(System.in);
+    private final Scanner sc = new Scanner(System.in);
 
     public static void main(String[] args) {
         new ConsolePlayer().play();

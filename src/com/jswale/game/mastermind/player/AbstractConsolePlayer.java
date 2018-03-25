@@ -11,12 +11,12 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.stream.Collectors;
 
-public abstract class AbstractConsolePlayer {
+abstract class AbstractConsolePlayer {
 
 
-    protected Mastermind mastermind;
+    final Mastermind mastermind;
 
-    String repeatString(String s, int count) {
+    private String repeatString(String s, int count) {
         return Collections.nCopies(count, s).stream().collect(Collectors.joining(""));
     }
 

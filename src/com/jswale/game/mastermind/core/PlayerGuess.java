@@ -1,9 +1,9 @@
 package com.jswale.game.mastermind.core;
 
 public class PlayerGuess {
-    private Character[] colors;
-    private int noWelledPlaced;
-    private int noGoodColors;
+    private final Character[] colors;
+    private final int noWelledPlaced;
+    private final int noGoodColors;
 
     public PlayerGuess(Character[] colors, int noWelledPlaced, int noGoodColors) {
         this.colors = colors;

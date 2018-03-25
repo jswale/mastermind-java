@@ -9,13 +9,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
+import static java.lang.Character.*;
+
 public class Mastermind {
 
-    private Rules rules;
+    private final Rules rules;
     private Character[] solution;
     private State state;
-    private LinkedList<PlayerGuess> guesses;
-
+    private final LinkedList<PlayerGuess> guesses;
 
     public Mastermind() {
         this.rules = new Rules();
@@ -23,20 +24,41 @@ public class Mastermind {
         this.guesses = new LinkedList<>();
     }
 
+    /**
+     * Force the game solution.
+     *
+     * @param solution the game solution
+     */
     public void setSolution(Character[] solution) {
         this.solution = solution;
     }
 
+    /**
+     * @return the game rules
+     */
     public Rules getRules() {
         return rules;
     }
 
+    /**
+     * @return the game solution
+     */
     public Character[] getSolution() {
         return solution;
     }
 
+    /**
+     * @return the game state
+     */
     public State getState() {
         return state;
+    }
+
+    /**
+     * @return the player guesses
+     */
+    public LinkedList<PlayerGuess> getGuesses() {
+        return guesses;
     }
 
     public void newGame() {
@@ -45,14 +67,22 @@ public class Mastermind {
         this.solution = generate();
     }
 
-    public LinkedList<PlayerGuess> getGuesses() {
-        return guesses;
-    }
-
+    /**
+     * Generate a valid answer of the game
+     * @return valid answer
+     */
     public Character[] generate() {
-        return new Random().ints(0, this.rules.getColors().length).mapToObj((i) -> (char) this.rules.getColors()[i]).limit(this.rules.getNoPins()).toArray(Character[]::new);
+        return new Random().ints(0, this.rules.getColors().length).mapToObj((i) -> this.rules.getColors()[i]).limit(this.rules.getNoPins()).toArray(Character[]::new);
     }
 
+    /**
+     * Analyze the user input
+     *
+     * @param guess the user input
+     * @throws GuessWrongColorException if the input contains unauthorized colors
+     * @throws GuessWrongSizeException if input length missmatch board pin length
+     * @throws GuessGameIsOverException if the player tries to play on an ended game
+     */
     public void guess(String guess) throws GuessWrongColorException, GuessWrongSizeException, GuessGameIsOverException {
         if (!this.state.equals(State.PLAYING)) {
             throw new GuessGameIsOverException();
@@ -96,7 +126,7 @@ public class Mastermind {
         }
 
         // Saving
-        PlayerGuess playerGuess = new PlayerGuess(guess.chars().mapToObj(i -> Character.valueOf((char) i)).toArray(Character[]::new), noWelledPlaced, noGoodColor);
+        PlayerGuess playerGuess = new PlayerGuess(guess.chars().mapToObj(i -> valueOf((char) i)).toArray(Character[]::new), noWelledPlaced, noGoodColor);
         guesses.add(playerGuess);
 
         // Look at the game
@@ -112,8 +142,8 @@ public class Mastermind {
      * Check if the user input is valid
      *
      * @param guess the user input
-     * @throws GuessWrongSizeException
-     * @throws GuessWrongColorException
+     * @throws GuessWrongColorException if the input contains unauthorized colors
+     * @throws GuessWrongSizeException if input length missmatch board pin length
      */
     private void checkInput(String guess) throws GuessWrongSizeException, GuessWrongColorException {
         if (guess.length() != this.rules.getNoPins()) {
@@ -126,6 +156,9 @@ public class Mastermind {
         }
     }
 
+    /**
+     * Game available states
+     */
     public enum State {
         PLAYING,
         GAME_OVER,

@@ -7,13 +7,13 @@ import com.jswale.game.mastermind.exception.GuessWrongSizeException;
 
 public class Example {
 
-    private Mastermind mastermind;
+    private final Mastermind mastermind;
 
-    public Example() {
+    private Example() {
         this.mastermind = new Mastermind();
     }
 
-    public void play() {
+    private void play() {
         this.mastermind.newGame();
         this.mastermind.setSolution(new Character[]{'R', 'O', 'O', 'J'});
 
@@ -24,12 +24,8 @@ public class Example {
             this.mastermind.guess("ORJO");
             this.mastermind.guess("ROOJ");
 
-        } catch (GuessWrongColorException guessWrongColorException) {
+        } catch (GuessWrongColorException | GuessGameIsOverException | GuessWrongSizeException guessWrongColorException) {
             guessWrongColorException.printStackTrace();
-        } catch (GuessWrongSizeException guessWrongSizeException) {
-            guessWrongSizeException.printStackTrace();
-        } catch (GuessGameIsOverException gameIsOverException) {
-            gameIsOverException.printStackTrace();
         }
 
         System.out.println(this.mastermind.getState());
